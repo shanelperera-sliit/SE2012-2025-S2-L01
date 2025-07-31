@@ -27,6 +27,7 @@ public class Marks {
             System.out.println("Get the average for a subject: average [subjectID]");
             System.out.println("Get the average for a student: average_s [studentID]");
             System.out.println("Get the total mark of a student: total [studentID]");
+			System.out.println("Display the grades of the student: grade");
             System.out.println("Exit program: exit");
 
             System.out.print("\nEnter Command: ");
@@ -97,6 +98,9 @@ public class Marks {
                         totalForStudent(studentID);
                     }
                     break;
+				case "grade":
+					displayGrades();
+					break;
                 default:
                     System.out.println("Unknown command.");
                     break;
@@ -124,7 +128,7 @@ public class Marks {
             System.out.println("Invalid student or subject ID.");
             return;
         }
-
+		
         System.out.print("Enter the new mark: ");
         double newMark = scanner.nextDouble();
         scanner.nextLine();
@@ -211,4 +215,41 @@ public class Marks {
     static boolean isValidSubject(int id) {
         return id >= 1 && id <= SUBJECT_COUNT;
     }
+	
+	static void displayGrades() {
+		System.out.println("\n--- GRADES SUMMARY ---");
+		System.out.printf("%-15s", "Student");
+		for (String subject : subjects) {
+			System.out.printf("%-15s", subject);
+		}
+		System.out.println();
+		System.out.println("-".repeat(52));
+
+		for (int i = 0; i < n; i++) {
+			System.out.printf("%-15s", "Student " + (i + 1));
+			for (int j = 0; j < SUBJECT_COUNT; j++) {
+				double mark = marks[i][j];
+				if (mark == -1) {
+					System.out.printf("%-15s", "N/A");
+				} else {
+					System.out.printf("%-15s", getGrade(mark));
+				}
+			}
+			System.out.println();
+		}
+	}
+
+	static String getGrade(double mark) {
+		if (mark >= 90) 
+			return "Grade A";
+		else if (mark >= 80) 
+			return "Grade B";
+		else if (mark >= 70) 
+			return "Grade C";
+		else if (mark >= 60) 
+			return "Grade D";
+		else 
+			return "Fail";
+	}
+
 }
